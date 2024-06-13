@@ -5,19 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
+
 class ProductController extends Controller
 {
     public function index()
     {
         $products = Product::all(); // Retrieve all products from the database
-
-        return view('index', compact('products'));
-    }
-
-    public function show($id)
-    {
-        $product = Product::find($id);
-        return view('products.show', compact('product'));
+        
+        return view('products.index', compact('products')); // Pass products data to the 'products.index' view
     }
 
     public function create()
@@ -27,22 +22,52 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        // Validate the incoming request data
+        $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required',
-            'starting_price' => 'required|numeric|min:0',
-            'auction_end' => 'required|date',
+            'description' => 'required|string',
+            'price' => 'required|numeric|min:0',
         ]);
 
+        // Create a new Product instance
         $product = new Product();
-        $product->name = $validatedData['name'];
-        $product->description = $validatedData['description'];
-        $product->starting_price = $validatedData['starting_price'];
-        $product->current_price = $validatedData['starting_price'];
-        $product->auction_end = $validatedData['auction_end'];
-        $product->user_id = auth()->id();
+        $product->name = $request->input('name');
+        $product->description = $request->input('description');
+        $product->price = $request->input('price');
         $product->save();
 
-        return redirect()->route('products.index')->with('success', 'Product created successfully.');
+        // Redirect to a success page or route
+        return redirect()->route('products.index')
+                        ->with('success', 'Product created successfully.');
+    }
+    public function show(Product $product)
+    {
+        return view('products.show', compact('product'));
+    }
+
+    public function edit(Product $product)
+    {
+        return view('products.edit', compact('product'));
+    }
+
+    public function update(Request $request, Product $product)
+    {
+        // Validate incoming data
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'current_price' => 'required|numeric|min:0',
+        ]);
+
+        // Update the product
+        $product->update($request->all());
+
+        return redirect()->route('products.index')->with('success', 'Product updated successfully.');
+    }
+
+    public function destroy(Product $product)
+    {
+        $product->delete();
+        return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
     }
 }
