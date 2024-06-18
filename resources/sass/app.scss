@@ -1,8 +1,41 @@
-// Fonts
-@import url('https://fonts.bunny.net/css?family=Nunito');
+// Import Bootstrap for base styling
+@import '~bootstrap/scss/bootstrap';
 
-// Variables
-@import 'variables';
+// Custom styles
+body {
+    background: linear-gradient(135deg, #f06, #4a90e2);
+    color: #333;
+    font-family: 'Nunito', sans-serif;
+}
 
-// Bootstrap
-@import 'bootstrap/scss/bootstrap';
+// Header styles
+.navbar {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.nav-link {
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-link:hover {
+    background-color: #555;
+    color: #fff;
+}
+
+.form-control {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+// Footer styles
+footer {
+    background-color: #333;
+    color: white;
+    border-radius: 10px;
+}
+
+footer p {
+    margin: 0;
+    padding: 10px;
+}
