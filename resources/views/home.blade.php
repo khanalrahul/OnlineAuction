@@ -13,8 +13,19 @@
                             {{ session('status') }}
                         </div>
                     @endif
+                    <hr>
+                    <p alignment="center">{{ __('You are logged in!') }}</p>
+                    <hr>
 
-                    {{ __('You are logged in!') }}
+                    <br><br><br><br>
+
+
+                    <h1>{{ __('Contents will come here soon!') }}</h1>
+
+
+
+
+                    <br><br><br><br><br><br><br><br><br><br>
                 </div>
             </div>
         </div>
