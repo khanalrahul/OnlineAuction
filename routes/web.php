@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ProductController;
+
 
 Route::get('/', function () {
     return view('home');
@@ -18,5 +20,7 @@ Route::get('/auctions', function () {
 Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
+
+Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
 
 Route::post('/contact/submit', [ContactController::class, 'submit'])->name('contact.submit');
