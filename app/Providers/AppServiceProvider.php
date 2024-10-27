@@ -3,8 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Models\Auction;
-use App\Observers\AuctionObserver;
+use Illuminate\Support\Facades\Blade;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -22,6 +21,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Auction::observe(AuctionObserver::class);
+        Blade::component('app-layout', \App\View\Components\AppLayout::class);
+    }
+
+    public function render()
+    {
+        return view('layouts.app');
     }
 }

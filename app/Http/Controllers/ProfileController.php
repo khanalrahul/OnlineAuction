@@ -21,11 +21,14 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+        $user = $request->user();
+    
+        // Log the accessed profile edit for debugging
+        \Log::info('Edit Profile Accessed', ['user' => $user]);
+    
+        return view('profile.edit', compact('user')); // Pass the user variable here
     }
-
+    
     /**
      * Update the user's profile information.
      */
