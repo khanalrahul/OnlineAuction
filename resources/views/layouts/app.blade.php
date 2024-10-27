@@ -63,7 +63,7 @@
                         <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('auctions.index') }}">Auctions</a>
+                        <a class="nav-link" href="{{ route('auctions.index') }}">My Auctions</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('about') }}">About</a>
