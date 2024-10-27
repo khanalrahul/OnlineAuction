@@ -6,7 +6,8 @@
     <title>Contact Us - Online Auction</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}"> <!-- Link to your CSS file -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;400;700&display=swap" rel="stylesheet">
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
     <style>
         body {
@@ -66,13 +67,13 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('home') }}" style="border: 2px solid #2980b9; padding: 10px; border-radius: 5px;">Home</a>
+                            <a class="nav-link" href="{{ route('dashboard') }}" style="border: 2px solid #2980b9; padding: 10px; border-radius: 5px;">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('about') }}" style="border: 2px solid #27ae60; padding: 10px; border-radius: 5px;">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('auctions') }}" style="border: 2px solid #c0392b; padding: 10px; border-radius: 5px;">Auctions</a>
+                            <a class="nav-link" href="{{ route('auctions.index') }}" style="border: 2px solid #c0392b; padding: 10px; border-radius: 5px;">Auctions</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('contact') }}" style="border: 2px solid #8e44ad; padding: 10px; border-radius: 5px;">Contact</a>
@@ -132,7 +133,7 @@
                 {{ session('status') }}
             </div>
         @endif
-        <form method="POST" action="{{ route('contact.submit') }}">
+        <form method="POST" action="{{ route('contact') }}">
             @csrf
             <div class="form-group mb-3">
                 <label for="name">Name</label>
