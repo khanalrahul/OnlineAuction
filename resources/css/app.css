@@ -1,3 +1,80 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Base Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f8; /* Light background for contrast */
+    color: #333; /* Dark text for readability */
+    line-height: 1.6;
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: #ffffff; /* White background */
+}
+
+.nav-link {
+    color: #007bff; /* Bootstrap primary color */
+}
+
+.nav-link:hover {
+    color: #0056b3; /* Darker shade on hover */
+}
+
+/* Main Content Styles */
+.container {
+    margin-top: 20px; /* Space above the content */
+}
+
+h1, h2, h3, h4 {
+    color: #0d6efd; /* Use primary color for headers */
+}
+
+h1 {
+    font-size: 2.5rem; /* Large title */
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 2rem; /* Medium title */
+    margin-bottom: 15px;
+}
+
+h3 {
+    font-size: 1.5rem; /* Smaller title */
+}
+
+/* Paragraph Styles */
+p {
+    margin-bottom: 15px; /* Space between paragraphs */
+}
+
+/* Button Styles */
+.btn-custom {
+    background-color: #0d6efd; /* Primary button color */
+    color: white; /* Text color */
+}
+
+.btn-custom:hover {
+    background-color: #0056b3; /* Darker on hover */
+}
+
+/* Footer Styles */
+.footer {
+    background-color: #343a40; /* Dark footer */
+    color: white; /* White text for contrast */
+    padding: 20px 0; /* Padding for the footer */
+}
+
+.footer a {
+    color: #f8f9fa; /* Light footer links */
+}
+
+.footer a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .navbar-collapse {
+        background-color: #ffffff; /*background */
+    }
+}

@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('auctions', function (Blueprint $table) {
+        Schema::create('bids', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('auction_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('item');
-            $table->text('description')->nullable();
-            $table->decimal('starting_bid', 10, 2);
-            $table->decimal('current_bid', 10, 2)->nullable();
-            $table->foreignId('winner_id')->nullable()->constrained('users')->onDelete('set null');
-            $table->timestamp('ends_at')->nullable();
+            $table->decimal('amount', 8, 2);
             $table->timestamps();
         });
     }
@@ -29,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('auctions');
+        Schema::dropIfExists('bids');
     }
 };

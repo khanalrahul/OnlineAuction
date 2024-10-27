@@ -5,27 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ config('app.name', 'OnlineAuctionSystem') }}</title>
 
+    <!-- data tables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <style>
-       
         html, body {
             height: 100%;
             margin: 0;
             display: flex;
             flex-direction: column;
         }
+
         main {
             flex: 1;
         }
-       
+
         .navbar {
             border-bottom: 3px solid #0d6efd;
+            position: sticky;
         }
+
         .navbar-brand img {
             height: 30px;
             margin-right: 10px;
         }
+
         .footer {
             background-color: #f8f9fa;
             border-top: 3px solid #0d6efd;
@@ -109,5 +119,7 @@
 
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

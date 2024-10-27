@@ -1,17 +1,48 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
+@section('content')
+<div class="container">
+    <h2 class="mb-4">Dashboard - Available Listings</h2>
+    
+    @if ($auctions->isEmpty())
+        <p>No listings available from other users.</p>
+    @else
+        <input type="text" id="searchBar" class="form-control mb-4" placeholder="Search items...">
+        
+        <div class="row" id="auctionContainer">
+            @foreach($auctions as $auction)
+                <div class="col-md-4 mb-4 auction-item">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{{ route('auctions.show', $auction->id) }}" class="text-decoration-none">
+                                    {{ $auction->item }}
+                                </a>
+                            </h5>
+                            <p class="card-text">{{ Str::limit($auction->description, 100) }}</p>
+                            <p><strong>Starting Bid:</strong> NPR {{ number_format($auction->starting_bid, 2) }}</p>
+                            <p><strong>Current Bid:</strong> NPR {{ number_format($auction->current_bid ?? $auction->starting_bid, 2) }}</p>
+                            <p><strong>Ends At:</strong> {{ $auction->ends_at->format('Y-m-d H:i:s') }}</p>
+                            <p><strong>Owner:</strong> {{ $auction->user->name }}</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            @endforeach
         </div>
-    </div>
-</x-app-layout>
+    @endif
+</div>
+@endsection
+
+@push('scripts')
+<script>
+    document.getElementById('searchBar').addEventListener('input', function() {
+        let searchTerm = this.value.toLowerCase();
+        let auctionItems = document.querySelectorAll('.auction-item');
+
+        auctionItems.forEach(function(item) {
+            let itemText = item.innerText.toLowerCase();
+            item.style.display = itemText.includes(searchTerm) ? 'block' : 'none';
+        });
+    });
+</script>
+@endpush
