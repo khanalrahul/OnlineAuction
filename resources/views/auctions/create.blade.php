@@ -15,7 +15,7 @@
             <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
         </div>
         <div class="mb-3">
-            <label for="starting_bid" class="form-label">Starting Bid (NRS)</label>
+            <label for="starting_bid" class="form-label">Starting Bid (रु.)</label>
             <input type="number" class="form-control" id="starting_bid" name="starting_bid" step="0.01" required>
         </div>
         <div class="mb-3">

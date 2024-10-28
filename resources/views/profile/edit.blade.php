@@ -1,33 +1,29 @@
 @extends('layouts.app')
 
 @section('content')
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+    <div class="container py-4">
+        <h2 class="text-center font-semibold text-xl leading-tight mb-4">
             {{ __('Profile') }}
         </h2>
-    </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            
-            <div class= "grid-container">
-                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg ">
-                    <div class="max-w-xl">
-                        @include('profile.partials.update-profile-information-form', ['user' => $user])
-                    </div>
-                </div>
-
-                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                    <div class="max-w-xl">
-                        @include('profile.partials.update-password-form')
-                    </div>
-                </div>
+        <!-- Update Profile Information Section -->
+        <div class="profile-section">
+            <div class="profile-card bg-white shadow rounded-lg p-4 mb-4">
+                @include('profile.partials.update-profile-information-form', ['user' => $user])
             </div>
+        </div>
 
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl alert alert-warning text-center">
-                    @include('profile.partials.delete-user-form')
-                </div>
+        <!-- Update Password Section -->
+        <div class="profile-section">
+            <div class="profile-card bg-white shadow rounded-lg p-4 mb-4">
+                @include('profile.partials.update-password-form')
+            </div>
+        </div>
+
+        <!-- Delete User Section -->
+        <div class="profile-section">
+            <div class="profile-card bg-white shadow rounded-lg p-4 alert alert-warning text-center">
+                @include('profile.partials.delete-user-form')
             </div>
         </div>
     </div>

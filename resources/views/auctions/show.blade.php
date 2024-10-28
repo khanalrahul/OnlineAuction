@@ -4,12 +4,12 @@
 <div class="container">
     <h1>{{ $auction->item }}</h1>
     <p>{{ $auction->description }}</p>
-    <p><strong>Starting Bid:</strong> NPR {{ number_format($auction->starting_bid, 2) }}</p>
+    <p><strong>Starting Bid:</strong> रु. {{ number_format($auction->starting_bid, 2) }}</p>
     <p><strong>Current Bid:</strong> 
         @if($auction->current_bid)
             <span class="text-success">{{ number_format($auction->current_bid, 2) }}</span>
         @else
-            NPR {{ number_format($auction->starting_bid, 2) }}
+            रु. {{ number_format($auction->starting_bid, 2) }}
         @endif
     </p>
     <p><strong>Auction Ends In:</strong> <span id="countdown"></span></p>
@@ -39,7 +39,7 @@
         <thead>
             <tr>
                 <th>Bidder Name</th>
-                <th>Bid Amount (NPR)</th>
+                <th>Bid Amount (रु.)</th>
                 <th>Bid Date</th>
             </tr>
         </thead>
@@ -59,6 +59,21 @@
             @endif
         </tbody>
     </table>
+
+    @if(now()->gt($auction->ends_at))
+        <div class="mt-4 p-4 bg-light border rounded">
+            <h3 class="text-center text-success">Winner</h3>
+            @if($bids->isNotEmpty())
+                @php
+                    $winningBid = $bids->sortByDesc('amount')->first();
+                @endphp
+                <p><strong>Name:</strong> {{ $winningBid->user->name }}</p>
+                <p><strong>Winning Bid:</strong> रु. {{ number_format($winningBid->amount, 2) }}</p>
+            @else
+                <p class="text-center">No bidders for this auction.</p>
+            @endif
+        </div>
+    @endif
 </div>
 
 <script>

@@ -20,7 +20,7 @@
                 <tr>
                     <th>Item</th>
                     <th>Description</th>
-                    <th>Starting Bid (NRS)</th>
+                    <th>Starting Bid (रु.)</th>
                     <th>Ends At</th>
                     <th>Actions</th>
                 </tr>

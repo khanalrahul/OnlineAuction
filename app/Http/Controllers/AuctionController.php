@@ -45,7 +45,7 @@ class AuctionController extends Controller
         $bid->save();
 
         $auction->current_bid = $bid->amount;
-        $auction->save(['timestamps' => false]);
+        $auction->save();
 
         return redirect()->route('auctions.show', $auction)->with('success', 'Bid placed successfully.');
     }
