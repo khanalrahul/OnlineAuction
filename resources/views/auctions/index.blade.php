@@ -26,7 +26,7 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse($auctions as $auction)
+                @foreach($auctions as $auction)
                 <tr>
                     <td>{{ $auction->item }}</td>
                     <td>{{ Str::limit($auction->description, 50) }}</td>
@@ -42,11 +42,7 @@
                         </form>
                     </td>
                 </tr>
-                @empty
-                <tr>
-                    <td colspan="5" class="text-center">No auctions found.</td>
-                </tr>
-                @endforelse
+                @endforeach
             </tbody>
         </table>
     @else

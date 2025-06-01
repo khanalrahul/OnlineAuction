@@ -42,6 +42,33 @@
             padding: 20px 0;
             text-align: center;
         }
+                .hover-effect {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .hover-effect:hover {
+            transform: translateY(-5px) scale(1.01); /* Lifts slightly and scales up */
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important; /* Stronger shadow */
+        }
+
+        .hover-effect-alt {
+            transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .hover-effect-alt:hover {
+            background-color: #f8f9fa !important; /* Slightly darker background on hover */
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+        }
+
+        .hover-btn-effect {
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .hover-btn-effect:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+            transform: translateY(-2px); /* Slight lift */
+            box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 <body>
@@ -119,6 +146,32 @@
 
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card.hover-effect');
+
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    // console.log('Mouse entered card:', this.querySelector('.card-title').textContent);
+                });
+
+                card.addEventListener('mouseleave', function() {
+                    // console.log('Mouse left card:', this.querySelector('.card-title').textContent);
+                });
+            });
+
+            const contactButton = document.querySelector('.hover-btn-effect');
+            if (contactButton) {
+                contactButton.addEventListener('mouseenter', function() {
+                    this.style.textDecoration = 'underline';
+                });
+                contactButton.addEventListener('mouseleave', function() {
+                    this.style.textDecoration = 'none';
+                });
+            }
+        });
+    </script>
     <!-- Custom JS -->
     <script src="{{ asset('js/app.js') }}"></script>
 </body>

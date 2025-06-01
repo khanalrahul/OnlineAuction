@@ -16,7 +16,7 @@ class Auction extends Model
         'item',
         'description',
         'starting_bid',
-        'current_bid',   
+        'current_bid',
         'winner_id',
     ];
 
