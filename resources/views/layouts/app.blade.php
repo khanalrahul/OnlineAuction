@@ -5,120 +5,177 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ config('app.name', 'OnlineAuctionSystem') }}</title>
 
-    <!-- data tables -->
+    <!-- Bootstrap CSS & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- DataTables -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <style>
-        html, body {
-            height: 100%;
-            margin: 0;
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #e0e7ff 0%, #f8fafc 100%);
             display: flex;
             flex-direction: column;
         }
-
+        .navbar {
+            background: linear-gradient(90deg, #0d6efd 60%, #6610f2 100%);
+            border-bottom: 3px solid #0d6efd;
+            box-shadow: 0 2px 8px rgba(13,110,253,0.08);
+        }
+        .navbar .navbar-brand, .navbar .nav-link, .navbar .dropdown-toggle {
+            color: #fff !important;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        .navbar .nav-link.active, .navbar .nav-link:hover, .navbar .dropdown-toggle:hover {
+            color: #ffe082 !important;
+            transition: color 0.2s;
+        }
+        .navbar-brand img {
+            height: 36px;
+            margin-right: 12px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.08));
+        }
+        .profile-dropdown .dropdown-menu {
+            animation: fadeInDown 0.3s;
+            border-radius: 1rem;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+            min-width: 200px;
+        }
+        .profile-dropdown .dropdown-item:hover {
+            background: #f1f3f9;
+            color: #0d6efd;
+        }
+        .profile-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+            margin-right: 8px;
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-10px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
         main {
             flex: 1;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
         }
-
-        .navbar {
-            border-bottom: 3px solid #0d6efd;
-            position: sticky;
-        }
-
-        .navbar-brand img {
-            height: 30px;
-            margin-right: 10px;
-        }
-
         .footer {
-            background-color: #f8f9fa;
+            background: linear-gradient(90deg, #0d6efd 60%, #6610f2 100%);
+            color: #fff;
             border-top: 3px solid #0d6efd;
-            padding: 20px 0;
+            padding: 24px 0 12px 0;
             text-align: center;
+            font-size: 1rem;
+            letter-spacing: 0.2px;
         }
-                .hover-effect {
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        .footer a {
+            color: #ffe082;
+            text-decoration: underline;
         }
-
+        .footer a:hover {
+            color: #fff;
+        }
+        /* Card hover effect */
+        .hover-effect {
+            transition: transform 0.3s cubic-bezier(.4,2,.6,1), box-shadow 0.3s;
+        }
         .hover-effect:hover {
-            transform: translateY(-5px) scale(1.01); /* Lifts slightly and scales up */
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important; /* Stronger shadow */
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 8px 32px rgba(13,110,253,0.12);
         }
-
-        .hover-effect-alt {
-            transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        }
-
-        .hover-effect-alt:hover {
-            background-color: #f8f9fa !important; /* Slightly darker background on hover */
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
-        }
-
+        /* Button hover effect */
         .hover-btn-effect {
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            transition: background 0.3s, transform 0.2s;
         }
-
         .hover-btn-effect:hover {
-            background-color: #0056b3; /* Darker blue on hover */
-            transform: translateY(-2px); /* Slight lift */
-            box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+            background: linear-gradient(90deg, #0d6efd 60%, #6610f2 100%);
+            color: #fff;
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 4px 16px rgba(13,110,253,0.10);
         }
     </style>
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <nav class="navbar navbar-expand-lg shadow-sm">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
                 <img src="{{ asset('images/logo.png') }}" alt="Logo">
-                {{ config('app.name', 'OnlineAuctionSystem') }}
+                <span>{{ config('app.name', 'OnlineAuctionSystem') }}</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarContent">
                 <!-- Left Side of Navbar -->
-                <ul class="navbar-nav me-auto">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
+                        <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}"><i class="bi bi-house-door"></i> Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('auctions.index') }}">My Auctions</a>
+                        <a class="nav-link {{ request()->routeIs('auctions.index') ? 'active' : '' }}" href="{{ route('auctions.index') }}"><i class="bi bi-gavel"></i> My Auctions</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('about') }}">About</a>
+                        <a class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}"><i class="bi bi-info-circle"></i> About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('contact') }}">Contact</a>
+                        <a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" href="{{ route('contact') }}"><i class="bi bi-envelope"></i> Contact</a>
                     </li>
                 </ul>
 
                 <!-- Right Side of Navbar (User Menu) -->
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     @guest
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">Login</a>
+                            <a class="nav-link" href="{{ route('login') }}"><i class="bi bi-box-arrow-in-right"></i> Login</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">Register</a>
+                            <a class="nav-link" href="{{ route('register') }}"><i class="bi bi-person-plus"></i> Register</a>
                         </li>
                     @else
-                        <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{ Auth::user()->name }}
+                        <li class="nav-item dropdown profile-dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                @if(Auth::user()->avatar)
+                                    <img src="{{ asset('storage/avatars/' . Auth::user()->avatar) }}" class="profile-avatar" alt="Profile">
+                                @else
+                                    <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=0d6efd&color=fff&size=64" class="profile-avatar" alt="Profile">
+                                @endif
+                                <span>{{ Auth::user()->name }}</span>
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Edit Profile</a></li>
-                                <li><a class="dropdown-item" href="{{ route('logout') }}"
-                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    Logout</a>
+                            <ul class="dropdown-menu dropdown-menu-end mt-2 shadow">
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center" href="{{ route('profile.edit') }}">
+                                        <i class="bi bi-person-circle me-2"></i> Edit Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center" href="{{ route('dashboard') }}">
+                                        <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center" href="{{ route('auctions.index') }}">
+                                        <i class="bi bi-gavel me-2"></i> My Auctions
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center text-danger" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        <i class="bi bi-box-arrow-right me-2"></i> Logout
+                                    </a>
                                 </li>
                             </ul>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -132,47 +189,33 @@
     </nav>
 
     <!-- Main Content Section -->
-    <main class="container my-4">
+    <main class="container">
         @yield('content')
     </main>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p class="mb-0">&copy; {{ date('Y') }} Online Auction System. All rights reserved.</p>
-            <small>Follow us on <a href="#">Facebook</a> | <a href="#">Twitter</a> | <a href="#">Instagram</a></small>
+            <p class="mb-1">&copy; {{ date('Y') }} <b>Online Auction System</b>. All rights reserved.</p>
+            <small>
+                Follow us on
+                <a href="#"><i class="bi bi-facebook"></i> Facebook</a> |
+                <a href="#"><i class="bi bi-twitter"></i> Twitter</a> |
+                <a href="#"><i class="bi bi-instagram"></i> Instagram</a>
+            </small>
         </div>
     </footer>
 
-    <!-- Bootstrap JS and Popper.js -->
+    <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const cards = document.querySelectorAll('.card.hover-effect');
-
-            cards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    // console.log('Mouse entered card:', this.querySelector('.card-title').textContent);
-                });
-
-                card.addEventListener('mouseleave', function() {
-                    // console.log('Mouse left card:', this.querySelector('.card-title').textContent);
-                });
-            });
-
-            const contactButton = document.querySelector('.hover-btn-effect');
-            if (contactButton) {
-                contactButton.addEventListener('mouseenter', function() {
-                    this.style.textDecoration = 'underline';
-                });
-                contactButton.addEventListener('mouseleave', function() {
-                    this.style.textDecoration = 'none';
-                });
-            }
-        });
-    </script>
     <!-- Custom JS -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script>
+        // Card and button hover effects (already handled by CSS)
+        // DataTables init
+        $(document).ready(function() {
+            $('.datatable').DataTable();
+        });
+    </script>
 </body>
 </html>
