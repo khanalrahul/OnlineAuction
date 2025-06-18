@@ -22,7 +22,7 @@
                             <p class="card-text">{{ Str::limit($auction->description, 100) }}</p>
                             <p><strong>Starting Bid:</strong> रु. {{ number_format($auction->starting_bid, 2) }}</p>
                             <p><strong>Current Bid:</strong> रु. {{ number_format($auction->current_bid ?? $auction->starting_bid, 2) }}</p>
-                            <p><strong>Ends At:</strong> {{ $auction->ends_at->format('Y-m-d H:i:s') }}</p>
+                            <p><strong>Ends At:</strong> {{ $auction->ends_at?->format('Y-m-d H:i:s') ?? 'N/A' }}</p>
                             <p><strong>Owner:</strong> {{ $auction->user->name }}</p>
                         </div>
                     </div>

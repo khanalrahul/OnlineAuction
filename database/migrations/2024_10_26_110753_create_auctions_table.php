@@ -19,7 +19,7 @@ return new class extends Migration
             $table->decimal('starting_bid', 10, 2);
             $table->decimal('current_bid', 10, 2)->nullable();
             $table->foreignId('winner_id')->nullable()->constrained('users')->onDelete('set null');
-            $table->timestamp('ends_at')->nullable();
+            $table->dateTime('ends_at');
             $table->timestamps();
         });
     }

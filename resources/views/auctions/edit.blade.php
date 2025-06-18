@@ -29,7 +29,7 @@
 
         <div class="mb-3">
             <label for="ends_at" class="form-label">Ends At</label>
-            <input type="datetime-local" class="form-control" id="ends_at" name="ends_at" value="{{ old('ends_at', \Carbon\Carbon::parse($auction->ends_at)->format('Y-m-d\TH:i')) }}" required>
+            <input type="datetime-local" class="form-control" id="ends_at" name="ends_at" value="{{ old('ends_at', optional($auction->ends_at)->format('Y-m-d\TH:i')) }}" required>
         </div>
 
         <button type="submit" class="btn btn-primary">Update Auction</button>

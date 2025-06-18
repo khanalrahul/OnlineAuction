@@ -77,7 +77,7 @@
 </div>
 
 <script>
-    const endTime = new Date("{{ $auction->ends_at }}").getTime();
+    const endTime = new Date("{{ $auction->ends_at?->toIso8601String() ?? '' }}").getTime();
     const timerInterval = setInterval(() => {
         const now = new Date().getTime();
         const distance = endTime - now;

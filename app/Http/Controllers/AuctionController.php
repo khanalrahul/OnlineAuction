@@ -91,9 +91,10 @@ class AuctionController extends Controller
             'item' => 'required|string|max:255',
             'description' => 'nullable|string',
             'starting_bid' => 'required|numeric|min:0',
+            'ends_at' => 'required|date|after:now',
         ]);
 
-        $auction->update($request->only('item', 'description', 'starting_bid'));
+        $auction->update($request->only('item', 'description', 'starting_bid', 'ends_at'));
 
         return redirect()->route('auctions.index')->with('success', 'Auction updated successfully.');
     }

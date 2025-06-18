@@ -31,7 +31,9 @@
                     <td>{{ $auction->item }}</td>
                     <td>{{ Str::limit($auction->description, 50) }}</td>
                     <td>{{ number_format($auction->starting_bid, 2) }}</td>
-                    <td>{{ $auction->ends_at->format('M d, Y H:i') }}</td>
+                    <td>
+                        {{ $auction->ends_at?->format('M d, Y H:i') ?? 'N/A' }}
+                    </td>
                     <td>
                         <a href="{{ route('auctions.show', $auction->id) }}" class="btn btn-info btn-sm">View</a>
                         <a href="{{ route('auctions.edit', $auction->id) }}" class="btn btn-warning btn-sm">Edit</a>

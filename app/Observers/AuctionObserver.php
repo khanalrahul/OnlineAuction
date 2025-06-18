@@ -46,12 +46,12 @@ class AuctionObserver
         //
     }
 
-    //to solve ends_at time of auction updating
-    public function updating(Auction $auction)
-    {
-        if ($auction->isDirty('ends_at')) {
-            $auction->ends_at = $auction->getOriginal('ends_at');
-        }
-    }
+    // //to solve ends_at time of auction updating
+    // public function updating(Auction $auction)
+    // {
+    //     if ($auction->isDirty('ends_at')) {
+    //         $auction->ends_at = $auction->getOriginal('ends_at');
+    //     }
+    // }
 
 }
