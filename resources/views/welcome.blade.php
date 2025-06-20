@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+
+<br><br>
     <div class="flex flex-col items-center justify-center h-screen bg-gradient-to-br from-yellow-100 via-pink-100 to-blue-100 animate-fade-in overflow-hidden"></div></div>
         <div class="relative bg-white/90 rounded-3xl shadow-2xl p-10 max-w-3xl w-full text-center backdrop-blur-md animate-slide-up overflow-hidden">
             <!-- Decorative Images -->

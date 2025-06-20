@@ -108,7 +108,7 @@
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg shadow-sm">
+    <nav class="navbar navbar-expand-lg shadow-sm fixed-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
                 <img src="{{ asset('images/logo.png') }}" alt="Logo">
@@ -187,6 +187,13 @@
             </div>
         </div>
     </nav>
+
+    <style>
+        body {
+            padding-top: 40px; /* Adjust if navbar height changes */
+            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+        }
+    </style>
 
     <!-- Main Content Section -->
     <main class="container">

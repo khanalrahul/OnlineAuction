@@ -30,10 +30,24 @@
             @forelse($auctions as $auction)
             <div class="col d-flex align-items-stretch">
                 <div class="card auction-card shadow-sm h-100 border-0 animate__animated animate__fadeInUp w-100">
+                    @if($auction->image)
+                        <img src="{{ asset('storage/' . $auction->image) }}" alt="{{ $auction->item }}" class="card-img-top object-fit-cover" style="height: 180px; border-top-left-radius: .5rem; border-top-right-radius: .5rem;">
+                    @else
+                        <div class="d-flex align-items-center justify-content-center bg-light" style="height: 180px; border-top-left-radius: .5rem; border-top-right-radius: .5rem;">
+                            <i class="bi bi-image fs-1 text-secondary"></i>
+                        </div>
+                    @endif
                     <div class="card-body d-flex flex-column">
-                        <h5 class="card-title text-gradient fw-bold mb-2">
-                            <i class="bi bi-box-seam"></i> {{ $auction->item }}
-                        </h5>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h5 class="card-title text-gradient fw-bold mb-0">
+                                <i class="bi bi-box-seam"></i> {{ $auction->item }}
+                            </h5>
+                            @if($auction->category)
+                                <span class="badge bg-secondary bg-gradient ms-2" style="font-size: 0.95em;">
+                                    <i class="bi bi-tags"></i> {{ $auction->category }}
+                                </span>
+                            @endif
+                        </div>
                         <p class="card-text text-muted mb-3" title="{{ $auction->description }}">
                             {{ Str::limit($auction->description, 60) }}
                         </p>
@@ -48,7 +62,7 @@
                                 {{ $auction->ends_at?->format('M d, Y H:i') ?? 'N/A' }}
                             </span>
                         </div>
-                        <div class="mt-auto d-flex gap-2">
+                        <div class="mt-auto d-flex gap-2 justify-content-end">
                             <a href="{{ route('auctions.show', $auction->id) }}" class="btn btn-outline-primary btn-sm shadow-sm" data-bs-toggle="tooltip" title="View Auction">
                                 <i class="bi bi-eye"></i> <span class="d-none d-md-inline">View</span>
                             </a>

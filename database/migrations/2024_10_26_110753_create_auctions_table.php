@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('item');
+            $table->string('image')->nullable();
+            $table->string('category')->nullable();
             $table->text('description')->nullable();
             $table->decimal('starting_bid', 10, 2);
             $table->decimal('current_bid', 10, 2)->nullable();

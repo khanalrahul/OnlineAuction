@@ -12,6 +12,8 @@ class Auction extends Model
     protected $fillable = [
         'user_id',
         'item',
+        'image',
+        'category',
         'description',
         'starting_bid',
         'current_bid',

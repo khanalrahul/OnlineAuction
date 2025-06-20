@@ -45,7 +45,7 @@
 
 <div class="auction-form-card animate__animated animate__fadeInDown">
     <h1 class="mb-4 text-center" style="color:#3182ce;">Create New Auction</h1>
-    <form action="{{ route('auctions.store') }}" method="POST" autocomplete="off">
+    <form action="{{ route('auctions.store') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
         @csrf
         <div class="mb-3">
             <label for="item" class="form-label">Item Name</label>
@@ -55,16 +55,19 @@
             <label for="description" class="form-label">Description</label>
             <textarea class="form-control" id="description" name="description" rows="3" placeholder="Describe the item, its condition, etc." required></textarea>
         </div>
+            <div class="mb-3">
+            <label for="image" class="form-label">Image</label>
+            <input type="file" class="form-control" id="image" name="image" accept="image/*">
+        </div>
         <div class="mb-3">
             <label for="category" class="form-label">Category</label>
             <select class="form-select" id="category" name="category" required>
-                <option value="">Select category</option>
-                <option>Electronics</option>
-                <option>Collectibles</option>
-                <option>Fashion</option>
-                <option>Home & Living</option>
-                <option>Art</option>
-                <option>Other</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Collectibles">Collectibles</option>
+                <option value="Fashion">Fashion</option>
+                <option value="Home & Living">Home & Living</option>
+                <option value="Art">Art</option>
+                <option value="Other">Other</option>
             </select>
         </div>
         <div class="mb-3">

@@ -45,7 +45,7 @@
 
 <div class="auction-form-card animate__animated animate__fadeInDown">
     <h1 class="mb-4 text-center" style="color:#3182ce;">Edit Auction</h1>
-    <form action="{{ route('auctions.update', $auction->id) }}" method="POST" autocomplete="off">
+    <form action="{{ route('auctions.update', $auction->id) }}" method="POST" enctype="multipart/form-data" autocomplete="off">
         @csrf
         @method('PUT')
         <div class="mb-3">
@@ -57,15 +57,59 @@
             <textarea class="form-control" id="description" name="description" rows="3" required>{{ old('description', $auction->description) }}</textarea>
         </div>
         <div class="mb-3">
+            <label for="image" class="form-label">Image</label>
+            <input type="file" class="form-control" id="image" name="image" accept="image/*" style="display:none;">
+            <div class="d-flex align-items-center">
+                <button type="button" class="btn btn-outline-primary btn-sm me-3" id="changeImageBtn">
+                    {{ $auction->image ? 'Change Image' : 'Upload Image' }}
+                </button>
+                <span id="fileName" class="form-hint"></span>
+            </div>
+            <div class="mt-2" id="imagePreviewWrapper" style="{{ $auction->image ? '' : 'display:none;' }}">
+                <span class="form-hint">Current image preview:</span><br>
+                <img id="imagePreview" src="{{ $auction->image ? asset('storage/' . $auction->image) : '' }}" alt="Current Image" style="max-width: 180px; max-height: 180px; border-radius: 8px; border: 1px solid #e2e8f0;">
+            </div>
+        </div>
+        <script>
+            const imageInput = document.getElementById('image');
+            const changeBtn = document.getElementById('changeImageBtn');
+            const imagePreview = document.getElementById('imagePreview');
+            const imagePreviewWrapper = document.getElementById('imagePreviewWrapper');
+            const fileName = document.getElementById('fileName');
+
+            changeBtn.addEventListener('click', function() {
+                imageInput.click();
+            });
+
+            imageInput.addEventListener('change', function(e) {
+                if (imageInput.files && imageInput.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(ev) {
+                        imagePreview.src = ev.target.result;
+                        imagePreviewWrapper.style.display = '';
+                        fileName.textContent = imageInput.files[0].name;
+                    };
+                    reader.readAsDataURL(imageInput.files[0]);
+                    changeBtn.textContent = 'Change Image';
+                }
+            });
+
+            // Show file name if already uploaded
+            @if($auction->image)
+                fileName.textContent = '';
+            @endif
+        </script>
+
+        <div class="mb-3">
             <label for="category" class="form-label">Category</label>
             <select class="form-select" id="category" name="category" required>
                 <option value="">Select category</option>
-                <option {{ old('category', $auction->category) == 'Electronics' ? 'selected' : '' }}>Electronics</option>
-                <option {{ old('category', $auction->category) == 'Collectibles' ? 'selected' : '' }}>Collectibles</option>
-                <option {{ old('category', $auction->category) == 'Fashion' ? 'selected' : '' }}>Fashion</option>
-                <option {{ old('category', $auction->category) == 'Home & Living' ? 'selected' : '' }}>Home & Living</option>
-                <option {{ old('category', $auction->category) == 'Art' ? 'selected' : '' }}>Art</option>
-                <option {{ old('category', $auction->category) == 'Other' ? 'selected' : '' }}>Other</option>
+                <option value="Electronics" {{ old('category', $auction->category) == 'Electronics' ? 'selected' : '' }}>Electronics</option>
+                <option value="Collectibles" {{ old('category', $auction->category) == 'Collectibles' ? 'selected' : '' }}>Collectibles</option>
+                <option value="Fashion" {{ old('category', $auction->category) == 'Fashion' ? 'selected' : '' }}>Fashion</option>
+                <option value="Home & Living" {{ old('category', $auction->category) == 'Home & Living' ? 'selected' : '' }}>Home & Living</option>
+                <option value="Art" {{ old('category', $auction->category) == 'Art' ? 'selected' : '' }}>Art</option>
+                <option value="Other" {{ old('category', $auction->category) == 'Other' ? 'selected' : '' }}>Other</option>
             </select>
         </div>
         <div class="mb-3">

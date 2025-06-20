@@ -54,10 +54,16 @@ class AuctionController extends Controller
     {
         $validatedData = $request->validate([
             'item' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'category' => 'nullable|string|max:255',
             'description' => 'required|string',
             'starting_bid' => 'required|numeric|min:0',
             'ends_at' => 'required|date|after:now',
         ]);
+
+        if ($request->hasFile('image')) {
+            $validatedData['image'] = $request->file('image')->store('auctions', 'public');
+        }
 
         $validatedData['user_id'] = auth()->id();
         
@@ -87,14 +93,20 @@ class AuctionController extends Controller
             return redirect()->route('auctions.index')->with('error', 'You do not have permission to update this auction.');
         }
 
-        $request->validate([
+        $validatedData = $request->validate([
             'item' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'category' => 'nullable|string|max:255',
             'description' => 'nullable|string',
             'starting_bid' => 'required|numeric|min:0',
             'ends_at' => 'required|date|after:now',
         ]);
 
-        $auction->update($request->only('item', 'description', 'starting_bid', 'ends_at'));
+        if ($request->hasFile('image')) {
+            $validatedData['image'] = $request->file('image')->store('auctions', 'public');
+        }
+
+        $auction->update($validatedData);
 
         return redirect()->route('auctions.index')->with('success', 'Auction updated successfully.');
     }
