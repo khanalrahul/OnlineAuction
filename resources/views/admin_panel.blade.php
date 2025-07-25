@@ -78,7 +78,7 @@
         <table class="table table-bordered bg-white shadow-sm" id="auctionsTable" style="width:100%">
             <thead class="table-light">
                 <tr>
-                    <th>ID</th><th>Item</th><th>Creator</th><th>Description</th><th>Starting Bid</th><th>Actions</th>
+                    <th>ID</th><th>Auction Item</th><th>Creator</th><th>Description</th><th>Starting Bid</th><th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -114,10 +114,10 @@
         <table class="table table-bordered bg-white shadow-sm" id="bidsTable" style="width:100%">
             <thead class="table-light">
                 <tr>
-                    <th>Bid ID</th>
+                    <th>ID</th>
                     <th>Auction Title</th>
-                    <th>User Name</th>
-                    <th>Amount</th>
+                    <th>Bidder</th>
+                    <th>Bid Amount</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -152,7 +152,7 @@
 <!-- Change Password Modal -->
 <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordLabel" aria-hidden="true">
   <div class="modal-dialog">
-    <form method="POST" action="/admin?reset_user=1" id="changePasswordForm">
+    <form method="POST" action="/admin/change-password" id="changePasswordForm">
         @csrf
         <input type="hidden" name="user_id" id="changePasswordUserId">
         <div class="modal-content">

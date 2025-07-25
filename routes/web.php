@@ -111,6 +111,14 @@ Route::match(['get', 'post'], '/admin', function(Request $request) {
     return view('admin_panel', compact('users', 'auctions', 'bids'));
 });
 
+Route::post('/admin/change-password', function(Request $request) {
+    $user = App\Models\User::find($request->user_id);
+    $user->password = Hash::make($request->password);
+    $user->save();
+    
+    return back()->with('success', 'Password changed successfully!');
+});
+
 Route::get('/dashboard', function () {
     $auctions = Auction::where('user_id', '!=', auth()->id())
         ->where('ends_at', '>', now())
