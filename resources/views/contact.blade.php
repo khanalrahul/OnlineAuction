@@ -68,16 +68,16 @@
             <div class="card shadow-lg animate__animated animate__fadeInRight">
                 <div class="card-body">
                     <h2 class="card-title mb-4 text-primary">Contact Information</h2>
-                    <p><i class="bi bi-envelope-fill me-2"></i><strong>Email:</strong> support@onlineauctionsystem.com.np</p>
-                    <p><i class="bi bi-telephone-fill me-2"></i><strong>Phone:</strong> +977 980-1523050</p>
-                    <p><i class="bi bi-geo-alt-fill me-2"></i><strong>Address:</strong> Jawalakhel, Lalitpur</p>
+                    <p><i class="bi bi-envelope-fill me-2"></i><strong>Email:</strong> info@auction.raahul.com.np</p>
+                    <p><i class="bi bi-telephone-fill me-2"></i><strong>Phone:</strong> +977 980-1754057</p>
+                    <p><i class="bi bi-geo-alt-fill me-2"></i><strong>Address:</strong> Jawalakhel, Lalitpur, Nepal</p>
                     <hr>
                     <div class="ratio ratio-16x9 rounded shadow-sm">
                         <iframe src="https://maps.google.com/maps?q=Jawalakhel%20Lalitpur&t=&z=15&ie=UTF8&iwloc=&output=embed"
                                 frameborder="0" allowfullscreen></iframe>
                     </div>
                 </div>
-            </div>
+            </div>  
         </div>
     </div>
 </div>

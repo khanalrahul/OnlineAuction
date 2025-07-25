@@ -136,7 +136,7 @@
                                         {{ $auction->ends_at?->format('Y-m-d H:i') ?? 'N/A' }}
                                     </span>
                                     <span class="badge bg-light border text-secondary" style="font-size: 0.85rem;">
-                                        <i class="bi bi-gavel"></i> Auction
+                                        <i class="bi bi-gavel"> {{ $auction->category ?? 'Uncategorized' }} </i>
                                     </span>
                                 </div>
                             </div>
