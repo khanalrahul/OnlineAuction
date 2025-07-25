@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ config('app.name', 'OnlineAuctionSystem') }}</title>
 
+    <!-- //for toastr notifications -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+
     <!-- Bootstrap CSS & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
@@ -13,6 +16,10 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+
+    <!-- //for toastr notifications -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
@@ -104,6 +111,118 @@
             transform: translateY(-2px) scale(1.03);
             box-shadow: 0 4px 16px rgba(13,110,253,0.10);
         }
+
+        /* Notification Dropdown Styles */
+        #notificationDropdown {
+            font-size: 1.25rem;
+            padding: 0.5rem 1rem;
+            position: relative;
+        }
+
+        #notificationDropdown .badge {
+            font-size: 0.6rem;
+            padding: 0.25em 0.4em;
+        }
+
+        .notification-item {
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        .notification-item.unread {
+            background-color: rgba(13, 110, 253, 0.05);
+        }
+
+        .notification-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .notification-list {
+            scrollbar-width: thin;
+            scrollbar-color: #888 #f1f1f1;
+        }
+
+        .notification-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .notification-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .notification-list::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+
+        .notification-list::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* toastr configs */
+        #toast-container > .toast {
+            background-image: none !important;
+            padding: 15px 15px 15px 20px !important;
+            border-radius: 12px !important;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15) !important;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+            border: none !important;
+            width: 350px !important;
+            opacity: 1 !important;
+            background-position: 15px center !important;
+        }
+
+        #toast-container > .toast-success {
+            background-color: #28a745 !important;
+            color: white !important;
+            border-left: 5px solid #218838 !important;
+        }
+
+        .toast-close-button {
+            color: white !important;
+            opacity: 0.8 !important;
+            font-size: 1.5rem !important;
+            position: absolute !important;
+            right: 10px !important;
+            top: 10px !important;
+        }
+
+        .toast-close-button:hover {
+            color: white !important;
+            opacity: 1 !important;
+        }
+
+        .toast-title {
+            font-weight: 600 !important;
+            font-size: 1.1rem !important;
+            margin-bottom: 5px !important;
+        }
+
+        .toast-message {
+            line-height: 1.4 !important;
+            font-size: 0.95rem !important;
+        }
+
+        .toast-progress {
+            height: 3px !important;
+            background-color: rgba(255, 255, 255, 0.5) !important;
+        }
+
+        /* Animation */
+        @keyframes fadeInToast {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeOutToast {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-20px); }
+        }
+
+        #toast-container > div {
+            animation: fadeInToast 0.5s forwards, fadeOutToast 0.5s 5.5s forwards !important;
+        }
     </style>
 </head>
 <body>
@@ -145,6 +264,65 @@
                             <a class="nav-link" href="{{ route('register') }}"><i class="bi bi-person-plus"></i> Register</a>
                         </li>
                     @else
+                        <!-- Notification Dropdown -->
+                            <li class="nav-item dropdown me-3">
+                                <a class="nav-link position-relative" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-bell-fill"></i>
+                                    @if(auth()->user()->unreadNotifications->count() > 0)
+                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                            {{ auth()->user()->unreadNotifications->count() }}
+                                            <span class="visually-hidden">unread notifications</span>
+                                        </span>
+                                    @endif
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg p-0 shadow" aria-labelledby="notificationDropdown" style="width: 350px;">
+                                    <li>
+                                        <div class="dropdown-header d-flex justify-content-between align-items-center">
+                                            <h6 class="m-0">Notifications</h6>
+                                            @if(auth()->user()->unreadNotifications->count() > 0)
+                                                <a href="#" class="small mark-all-read">Mark all as read</a>
+                                            @endif
+                                        </div>
+                                    </li>
+                                    <li><hr class="dropdown-divider m-0"></li>
+                                    <div class="notification-list" style="max-height: 400px; overflow-y: auto;">
+                                        @forelse(auth()->user()->notifications->take(10) as $notification)
+                                            <li class="px-3 py-2 notification-item {{ $notification->unread() ? 'unread' : '' }}" data-id="{{ $notification->id }}">
+                                                <div class="d-flex">
+                                                    <div class="flex-shrink-0 me-2">
+                                                        <i class="bi bi-{{ $notification->data['icon'] ?? 'bell' }}-fill text-{{ $notification->data['type'] ?? 'primary' }}"></i>
+                                                    </div>
+                                                    <div class="flex-grow-1">
+                                                        <div class="d-flex justify-content-between">
+                                                            <h6 class="mb-1">{{ $notification->data['title'] ?? 'Notification' }}</h6>
+                                                            <small class="text-muted">{{ $notification->created_at->diffForHumans() }}</small>
+                                                        </div>
+                                                        <p class="mb-0 small">{{ $notification->data['message'] }}</p>
+                                                        @if(isset($notification->data['action_url']))
+                                                            <a href="{{ $notification->data['action_url'] }}" class="btn btn-sm btn-outline-{{ $notification->data['type'] ?? 'primary' }} mt-1">View</a>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            @if(!$loop->last)
+                                                <li><hr class="dropdown-divider my-1"></li>
+                                            @endif
+                                        @empty
+                                            <li class="px-3 py-3 text-center text-muted">
+                                                No notifications found
+                                            </li>
+                                        @endforelse
+                                    </div>
+                                    <li><hr class="dropdown-divider m-0"></li>
+                                    <li>
+                                        <a class="dropdown-item text-center py-2 small" href="{{ route('notifications.index') }}">
+                                            View all notifications
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        <!-- Profile Dropdown -->
                         <li class="nav-item dropdown profile-dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 @if(Auth::user()->avatar)
@@ -213,6 +391,62 @@
         </div>
     </footer>
 
+    <script>
+        $(document).ready(function() {
+            // Mark notification as read when clicked
+            $(document).on('click', '.notification-item', function(e) {
+                if (!$(e.target).is('a')) {
+                    const notificationId = $(this).data('id');
+                    const $notification = $(this);
+                    
+                    // AJAX call to mark as read
+                    $.ajax({
+                        url: '/notifications/' + notificationId + '/read',
+                        method: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function() {
+                            $notification.removeClass('unread');
+                            updateNotificationBadge();
+                        }
+                    });
+                }
+            });
+
+            // Mark all as read
+            $('.mark-all-read').click(function(e) {
+                e.preventDefault();
+                
+                $.ajax({
+                    url: '/notifications/mark-all-read',
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function() {
+                        $('.notification-item').removeClass('unread');
+                        updateNotificationBadge();
+                    }
+                });
+            });
+
+            // Update notification badge count
+            function updateNotificationBadge() {
+                const unreadCount = $('.notification-item.unread').length;
+                const badge = $('#notificationDropdown .badge');
+                
+                if (unreadCount > 0) {
+                    badge.text(unreadCount).show();
+                } else {
+                    badge.hide();
+                }
+            }
+            
+            // Initialize DataTables
+            $('.datatable').DataTable();
+        });
+    </script>
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Custom JS -->
@@ -223,6 +457,51 @@
         $(document).ready(function() {
             $('.datatable').DataTable();
         });
+        
     </script>
+    
+    <!-- Toastr Notifications -->
+    <script>
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut",
+            "tapToDismiss": false
+        };
+
+        @if(auth()->check() && auth()->user()->unreadNotifications->count())
+            @foreach(auth()->user()->unreadNotifications as $notification)
+                toastr.success(
+                    '<strong>{{ $notification->data["title"] ?? "Notification" }}</strong><br>' + 
+                    '{{ $notification->data["message"] }}',
+                    '', // No title parameter
+                    {
+                        "timeOut": 6000,
+                        "extendedTimeOut": 2000,
+                        "closeButton": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "toastClass": "toast-success-custom"
+                    }
+                );
+            @endforeach
+            @php
+                auth()->user()->unreadNotifications->markAsRead();
+            @endphp
+        @endif
+    </script>
+
 </body>
 </html>

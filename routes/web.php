@@ -9,6 +9,7 @@ use App\Http\Controllers\AuctionController;
 use App\Http\Controllers\ContactController;
 use App\Models\Auction;
 use App\Models\Bid;
+use notifications\NewUserNotification;
 
 Route::get('/', function () {
     return view('welcome');
@@ -152,7 +153,56 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/test', function(){
-    return view('test');
+    $user = auth()->user();
+    if ($user) {
+        $user->notify(new App\Notifications\NewUserNotification());
+        return redirect('/')->with('success', 'Notification sent!');
+    } else {
+        return redirect('/')->with('error', 'You must be logged in to send a notification.');
+    }
+})->middleware('auth')->name('test.notification');
+
+// Notifications
+Route::prefix('notifications')->group(function() {
+    Route::post('/{id}/read', function($id) {
+        auth()->user()->notifications()->where('id', $id)->update(['read_at' => now()]);
+        return response()->json(['success' => true]);
+    })->name('notifications.mark-read');
+
+    Route::post('/mark-all-read', function() {
+        auth()->user()->unreadNotifications->markAsRead();
+        return response()->json(['success' => true]);
+    })->name('notifications.mark-all-read');
+
+    Route::get('/', function() {
+        return view('notifications.index', [
+            'notifications' => auth()->user()->notifications()->paginate(20)
+        ]);
+    })->name('notifications.index');
+});
+
+Route::get('/mail-test', function() {
+    try {
+        Mail::raw('This is a test email', function($message) {
+            $message->to('khanalrahul79@gmail.com')
+                   ->subject('Laravel Mail Test');
+        });
+        
+        if (count(Mail::failures()) > 0) {
+            return response()->json([
+                'status' => 'error',
+                'failures' => Mail::failures()
+            ], 500);
+        }
+        
+        return response()->json(['status' => 'success']);
+        
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ], 500);
+    }
 });
 
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
